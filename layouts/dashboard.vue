@@ -9,7 +9,12 @@ useHead({
 });
 </script>
 <template>
-  <div>
-    <slot />
+  <div id="dashboard-layout">
+    <div class="dashboard-layout__header">
+      <HeaderGlobal />
+      <div class="container mx-auto pt-7">
+        <slot />
+      </div>
+    </div>
   </div>
 </template>

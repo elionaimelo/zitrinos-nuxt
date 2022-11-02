@@ -3,16 +3,15 @@ definePageMeta({
   title: "Login",
 });
 
-const client = useSupabaseClient();
+const { auth } = useSupabaseClient();
 const user = useSupabaseUser();
 
 const data = reactive({
   email: "",
   password: "",
-  isLoading: false,
 });
 
-console.log(user);
+const isLoading = ref(false);
 
 watchEffect(() => {
   if (user.value) {
@@ -20,19 +19,13 @@ watchEffect(() => {
   }
 });
 
-const onSubmit = async () => {
-  const { user, session, error } = await client.auth.signIn(
-    {
-      email: data.email,
-      password: data.password,
-    },
-    {
-      session: true,
-    }
-  );
+const onSignIn = async () => {
+  const { error } = await auth.signInWithPassword({
+    email: data.email,
+    password: data.password,
+  });
 
   if (error) {
-    console.log(error.message);
     return;
   }
 };
@@ -64,52 +57,63 @@ const onSubmit = async () => {
       </div>
       <div class="flex justify-center self-center z-10">
         <div class="p-12 bg-white mx-auto rounded-2xl w-100">
-          <div class="mb-4">
-            <h3 class="font-semibold text-2xl text-gray-800">Login</h3>
-            <p class="text-gray-500">Insira seus dados abaixo.</p>
+          <div
+            v-if="isLoading"
+            class="home-loading flex justify-center items-center"
+          >
+            Carregando...
           </div>
-          <div class="space-y-5">
-            <div class="space-y-2">
-              <label class="text-sm font-medium text-gray-700 tracking-wide"
-                >Email</label
-              >
-              <input
-                class="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-400"
-                type=""
-                placeholder="mail@gmail.com"
-                v-model="data.email"
-              />
+          <div v-else>
+            <div class="mb-4">
+              <h3 class="font-semibold text-2xl text-gray-800">Login</h3>
+              <p class="text-gray-500">Insira seus dados abaixo.</p>
             </div>
-            <div class="space-y-2">
-              <label
-                class="mb-5 text-sm font-medium text-gray-700 tracking-wide"
-              >
-                Senha
-              </label>
-              <input
-                class="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-400"
-                type=""
-                placeholder="Insira sua senha"
-                v-model="data.password"
-              />
-            </div>
-            <div class="flex items-center justify-between">
-              <div class="text-sm">
-                <a href="#" class="text-indigo-400 hover:text-indigo-500">
-                  Esqueceu sua senha?
+            <div class="space-y-5">
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-gray-700 tracking-wide"
+                  >Email</label
+                >
+                <input
+                  class="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-400"
+                  type="email"
+                  placeholder="mail@gmail.com"
+                  v-model="data.email"
+                />
+              </div>
+              <div class="space-y-2">
+                <label
+                  class="mb-5 text-sm font-medium text-gray-700 tracking-wide"
+                >
+                  Senha
+                </label>
+                <input
+                  class="w-full content-center text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-400"
+                  type="password"
+                  placeholder="Insira sua senha"
+                  v-model="data.password"
+                />
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="text-sm">
+                  <a href="#" class="text-indigo-400 hover:text-indigo-500">
+                    Esqueceu sua senha?
+                  </a>
+                </div>
+              </div>
+              <div>
+                <button
+                  class="btn btn-primary w-full rounded-full"
+                  @click="onSignIn"
+                >
+                  Entrar
+                </button>
+                <a
+                  href="cadastro"
+                  class="btn btn-secondary w-full rounded-full mt-2"
+                >
+                  Cadastrar
                 </a>
               </div>
-            </div>
-            <div>
-              <button class="btn btn-primary w-full rounded-full">
-                Entrar
-              </button>
-              <a
-                href="cadastro"
-                class="btn btn-secondary w-full rounded-full mt-2"
-              >
-                Cadastrar
-              </a>
             </div>
           </div>
         </div>
