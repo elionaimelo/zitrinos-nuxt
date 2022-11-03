@@ -12,6 +12,17 @@ const isOpen = ref(false);
 const isOpen1 = ref(false);
 const client = useSupabaseClient();
 const modal = ref();
+const form = reactive({
+  nome: "",
+  cep: "",
+  estado: "",
+  cidade: "",
+  bairro: "",
+  logradouro: "",
+  numero: "",
+  cpf: "",
+  complemento: "",
+});
 
 const { data: clients } = await useAsyncData("clients", async () => {
   const { data, error } = await client.from("clients").select("*");
@@ -32,6 +43,43 @@ const onDetail = (id: string) => {
 
 const showModal = () => {
   isOpen1.value = true;
+};
+
+const onSearchAddress = async (event) => {
+  if (event.target.value.length === 8) {
+    const { data } = await useFetch(
+      `https://opencep.com/v1/${event.target.value}.json`
+    );
+
+    form.estado = data.value.uf;
+    form.cidade = data.value.localidade;
+    form.bairro = data.value.bairro;
+    form.logradouro = data.value.logradouro;
+  }
+};
+
+const addClient = async () => {
+  const { error } = await client.from("clients").insert([
+    {
+      name: form.nome,
+      cep: form.cep,
+      estado: form.estado,
+      cidade: form.cidade,
+      bairro: form.bairro,
+      logradouro: form.logradouro,
+      numero: form.numero,
+      cpf: form.cpf,
+      complemento: form.complemento,
+    },
+  ]);
+
+  if (error) {
+    console.log(error);
+    return;
+  }
+
+  isOpen1.value = false;
+  location.reload();
 };
 </script>
 
@@ -93,18 +141,113 @@ const showModal = () => {
       </table>
     </div>
 
-    <Modal ref="modal" v-model:isOpen="isOpen" class="text-lg">
-      <p><strong>Nome:</strong> {{ selectedClient.name }}</p>
-      <p><strong>CEP:</strong> {{ selectedClient.cep }}</p>
-      <p><strong>Estado:</strong> {{ selectedClient.estado }}</p>
-      <p><strong>Cidade:</strong> {{ selectedClient.cidade }}</p>
-      <p><strong>Bairro:</strong> {{ selectedClient.bairro }}</p>
-      <p><strong>Logradouro:</strong> {{ selectedClient.logradouro }}</p>
-      <p><strong>Número:</strong> {{ selectedClient.numero }}</p>
+    <Modal ref="modal" name="md1" v-model:isOpen="isOpen" class="text-lg">
+      <template #title>
+        <h3 class="text-2xl font-semibold">{{ selectedClient.name }}</h3>
+      </template>
+      <template #body>
+        <p><strong>Nome:</strong> {{ selectedClient.name }}</p>
+        <p><strong>CEP:</strong> {{ selectedClient.cep }}</p>
+        <p><strong>Estado:</strong> {{ selectedClient.estado }}</p>
+        <p><strong>Cidade:</strong> {{ selectedClient.cidade }}</p>
+        <p><strong>Bairro:</strong> {{ selectedClient.bairro }}</p>
+        <p><strong>Logradouro:</strong> {{ selectedClient.logradouro }}</p>
+        <p><strong>Número:</strong> {{ selectedClient.numero }}</p>
+      </template>
     </Modal>
 
-    <Modal ref="modal" v-model:isOpen="isOpen1" class="text-lg">
-      Adicionar novo
+    <Modal ref="modal" name="md2" v-model:isOpen="isOpen1" class="text-lg">
+      <template #title>
+        <h3 class="text-2xl font-semibold">Adicionar novo cliente</h3>
+      </template>
+      <template #body>
+        <form class="flex flex-col gap-y-2">
+          <div>
+            <label>Nome</label>
+            <input
+              type="text"
+              class="input input-bordered w-full"
+              v-model="form.nome"
+              required
+            />
+          </div>
+          <div>
+            <label>CPF</label>
+            <input
+              type="text"
+              class="input input-bordered w-full"
+              v-model="form.cpf"
+              pattern="[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}"
+              required
+            />
+          </div>
+          <div>
+            <label>CEP</label>
+            <input
+              type="text"
+              class="input input-bordered w-full"
+              v-model="form.cep"
+              @keyup="onSearchAddress"
+            />
+          </div>
+          <div>
+            <label>Estado</label>
+            <input
+              type="text"
+              class="input input-bordered w-full"
+              v-model="form.estado"
+            />
+          </div>
+          <div>
+            <label>Cidade</label>
+            <input
+              type="text"
+              class="input input-bordered w-full"
+              v-model="form.cidade"
+            />
+          </div>
+          <div>
+            <label>Bairro</label>
+            <input
+              type="text"
+              class="input input-bordered w-full"
+              v-model="form.bairro"
+            />
+          </div>
+          <div>
+            <label>Logradouro</label>
+            <input
+              type="text"
+              class="input input-bordered w-full"
+              v-model="form.logradouro"
+            />
+          </div>
+          <div>
+            <label>Número</label>
+            <input
+              type="text"
+              class="input input-bordered w-full"
+              v-model="form.numero"
+            />
+          </div>
+          <div>
+            <label>Complemento</label>
+            <input
+              type="text"
+              class="input input-bordered w-full"
+              v-model="form.complemento"
+            />
+          </div>
+          <div>
+            <button
+              class="btn btn-primary my-4 md:float-right md:w-1/3"
+              @click="addClient"
+            >
+              Adicionar
+            </button>
+          </div>
+        </form>
+      </template>
     </Modal>
   </div>
 </template>

@@ -17,7 +17,7 @@ defineProps<{
   >
     <div class="modal-box">
       <div class="modal-header flex justify-between">
-        <h3 class="modal-title font-bold text-xl">Detalhes</h3>
+        <slot name="title"></slot>
         <svg
           @click="closeModal"
           xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +35,7 @@ defineProps<{
         </svg>
       </div>
       <div class="modal-body mt-5">
-        <slot />
+        <slot name="body"></slot>
       </div>
     </div>
   </div>
