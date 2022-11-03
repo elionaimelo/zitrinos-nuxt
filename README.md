@@ -1,5 +1,12 @@
 # Nuxt 3 Minimal Starter
 
+<p align="center">
+  <a href="" rel="noopener">
+ <img width=700px src="https://github.com/elionaimelo/zitrinos-nuxt/raw/master/src/assets/images/Fingate.png" alt="Zitrinos"></a>
+</p>
+
+
+
 Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
 
 ## Setup
