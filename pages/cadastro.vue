@@ -36,7 +36,7 @@ const onSubmit = async () => {
     return;
   } else {
     isLoading.value = false;
-    navigateTo("/");
+    navigateTo("/dashboard");
   }
 };
 </script>
@@ -118,7 +118,7 @@ const onSubmit = async () => {
                 :disabled="isLoading"
               >
                 <nuxt-icon
-                  name="iconphone"
+                  name="btn-loading"
                   fill
                   class="icon"
                   v-if="isLoading"

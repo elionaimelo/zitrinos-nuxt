@@ -26,13 +26,13 @@ const onSignIn = async () => {
     isLoading.value = false;
     return;
   }
-};
 
-watchEffect(() => {
-  if (user.value) {
-    navigateTo("/dashboard");
-  }
-});
+  isLoading.value = false;
+  navigateTo("/dashboard");
+};
+if (user.value) {
+  navigateTo("/dashboard");
+}
 </script>
 
 <template>
