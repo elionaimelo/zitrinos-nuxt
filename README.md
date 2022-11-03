@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="" rel="noopener">
- <img width=700px src="https://github.com/elionaimelo/zitrinos-nuxt/raw/master/src/assets/images/Fingate.png" alt="Zitrinos"></a>
+ <img width=700px src="https://github.com/elionaimelo/zitrinos-nuxt/blob/master/assets/images/3a68a8b9-72fe-42a4-8197-314471000e4c.png?raw=true" alt="Zitrinos"></a>
 </p>
 
 
