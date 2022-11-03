@@ -1,5 +1,17 @@
 <script lang="ts" setup>
 const client = useSupabaseClient();
+
+const signOut = async () => {
+  const { error } = await client.auth.signOut();
+  if (error) {
+    console.log(error.message);
+    return;
+  }
+
+  setTimeout(() => {
+    navigateTo("/");
+  }, 500);
+};
 </script>
 
 <template>
@@ -69,7 +81,7 @@ const client = useSupabaseClient();
               </svg>
             </a>
             <ul class="p-2 bg-base-100 shadow-sm">
-              <li><a href="#" @click="client.auth.signOut()">Sair</a></li>
+              <li><a href="#" @click="signOut">Sair</a></li>
             </ul>
           </li>
         </ul>

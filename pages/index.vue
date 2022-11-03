@@ -90,8 +90,9 @@ watchEffect(() => {
                   <input
                     class="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-400"
                     type="email"
-                    placeholder="mail@gmail.com"
+                    placeholder="zitrino@gmail.com"
                     v-model="data.email"
+                    required
                   />
                 </div>
                 <div class="space-y-2">
@@ -105,6 +106,7 @@ watchEffect(() => {
                     type="password"
                     placeholder="Insira sua senha"
                     v-model="data.password"
+                    required
                   />
                 </div>
                 <div class="flex items-center justify-between">

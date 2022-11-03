@@ -10,6 +10,7 @@ const data = reactive({
   name: "",
   email: "",
   password: "",
+  user: "",
 });
 
 const isLoading = ref(false);
@@ -24,6 +25,7 @@ const onSubmit = async () => {
     {
       data: {
         name: data.name,
+        user: data.user,
       },
     }
   );
@@ -69,6 +71,17 @@ const onSubmit = async () => {
                 type="text"
                 placeholder="Insira seu nome"
                 v-model="data.name"
+              />
+            </div>
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-gray-700 tracking-wide"
+                >Usuário</label
+              >
+              <input
+                class="w-full text-base px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-400"
+                type="text"
+                placeholder="@exemplo"
+                v-model="data.user"
               />
             </div>
             <div class="space-y-2">
