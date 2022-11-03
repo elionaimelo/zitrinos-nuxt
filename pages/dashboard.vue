@@ -46,7 +46,7 @@ const showModal = () => {
 };
 
 const onSearchAddress = async (event) => {
-  if (event.target.value.length === 8) {
+  if (event.target.value.length === 9) {
     const { data } = await useFetch(
       `https://opencep.com/v1/${event.target.value}.json`
     );
@@ -179,6 +179,7 @@ const addClient = async () => {
               v-model="form.cpf"
               pattern="[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}"
               required
+              v-maska="'###.###.###-##'"
             />
           </div>
           <div>
@@ -188,6 +189,7 @@ const addClient = async () => {
               class="input input-bordered w-full"
               v-model="form.cep"
               @keyup="onSearchAddress"
+              v-maska="'#####-###'"
             />
           </div>
           <div>
