@@ -1,18 +1,9 @@
 <script lang="ts" setup>
-const { auth } = useSupabaseClient();
-
-const signOut = async () => {
-  const { error } = await auth.signOut();
-  if (error) {
-    return;
-  } else {
-    navigateTo("/");
-  }
-};
+const client = useSupabaseClient();
 </script>
 
 <template>
-  <div class="navbar bg-base-100 px-0 shadow-md z-50 sticky">
+  <div class="navbar bg-base-100 px-0 shadow-md z-10 sticky">
     <div class="container mx-auto">
       <!-- para o mobile -->
       <!-- <div class="flex-none">
@@ -49,7 +40,9 @@ const signOut = async () => {
       </div>
     </div> -->
       <div class="flex-1">
-        <a class="btn btn-ghost normal-case text-xl">Zitrinos</a>
+        <a class="normal-case text-3xl text-indigo-700 font-extrabold"
+          >Zitrinos</a
+        >
       </div>
       <div class="flex-none">
         <ul class="menu menu-horizontal p-0">
@@ -75,7 +68,7 @@ const signOut = async () => {
               </svg>
             </a>
             <ul class="p-2 bg-base-100 shadow-sm">
-              <li><a href="#" @click="signOut">Sair</a></li>
+              <li><a href="#" @click="client.auth.signOut()">Sair</a></li>
             </ul>
           </li>
         </ul>

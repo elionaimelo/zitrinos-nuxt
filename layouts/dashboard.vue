@@ -6,6 +6,9 @@ useHead({
   viewport: "width=device-width, initial-scale=1, maximum-scale=1",
   charset: "utf-8",
   meta: [{ name: "description", content: `${route.meta.title} - Zitrinos` }],
+  bodyAttrs: {
+    class: "bg-slate-200 h-screen",
+  },
 });
 </script>
 <template>
